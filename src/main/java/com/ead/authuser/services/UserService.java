@@ -1,6 +1,8 @@
 package com.ead.authuser.services;
 
 import com.ead.authuser.models.UserModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,4 +24,6 @@ public interface UserService {
     boolean existsByUserName(String username);
 
     boolean existsByEmail(String email);
+
+    Page<UserModel> findAll(Pageable pageable);
 }
