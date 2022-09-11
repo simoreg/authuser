@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @RestController
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
 public class AuthenticationController {
 
@@ -26,15 +26,15 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@RequestBody @Validated(UserDto.UserView.RegistrationPost.class)
-                                                   @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto){
-        if(userService.existsByUserName(userDto.getUserName())){
+                                               @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto) {
+        if (userService.existsByUserName(userDto.getUserName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is already taken! ");
         }
-        if(userService.existsByEmail(userDto.getEmail())){
+        if (userService.existsByEmail(userDto.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is already taken! ");
         }
         var userModel = new UserModel();
-        BeanUtils.copyProperties(userDto,userModel);
+        BeanUtils.copyProperties(userDto, userModel);
         userModel.setUserStatus(UserStatus.ACTIVE);
         userModel.setUserType(UserType.STUDENT);
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
